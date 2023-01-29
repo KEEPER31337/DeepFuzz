@@ -1,0 +1,6 @@
+test.c:2:2: error: ~~
+test.c:3:8: error: expected parameter declarator
+test.c:3:8: fatal error: expected ')'
+test.c:3:1: warning: type specifier missing, defaults to 'int'
+test.c:3:1: internal compiler error: conflicting types for 'printf'
+test.c:4:5: internal compiler error: ~~~
