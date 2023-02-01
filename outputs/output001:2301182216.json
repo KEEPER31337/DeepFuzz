@@ -1,0 +1,24 @@
+{
+    "errorMsg": [
+        {
+            "compiler": "gcc",
+            "input": "test.c",
+            "output": "syntaxError",
+            "lines": [
+                "3",
+                "2"
+            ],
+            "option": "-O3"
+        },
+        {
+            "compiler": "gcc",
+            "input": "test.c",
+            "output": "internalError",
+            "lines": [
+                "4",
+                "3"
+            ],
+            "option": "-O3"
+        }
+    ]
+}
