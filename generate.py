@@ -13,9 +13,9 @@ import preprocess as pp
 latent_dim = 512  # Latent dimensionality of the encoding space.
 num_samples = 2000000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path = '' #'pair'
+data_path = input('data_path : ')
 maxlen = 50
-seed_path = './gcc/gcc/testsuite' # original test suite의 program을 seed로 취급 
+seed_path = input('seed_path : ') # original test suite의 program을 seed로 취급 
 max_num_line = 2
 
 # Vectorize the data.
@@ -102,7 +102,8 @@ decoder_inputs = Input(shape=(None, num_decoder_tokens))
 decoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True)
 decoder_outputs, _, _ = decoder_lstm(decoder_inputs,
                                      initial_state=encoder_states)
-# Dense는 다중 퍼셉트론 신경마에서 사용되는 layer
+
+# Dense는 다중 퍼셉트론 신경망에서 사용되는 layer
 # 입력과 출력을 모두 연결해준다. 
 # 종속변수 3개, 활성화 함수 softmax(입력받은 값을 출력으로 0~1사이의 값으로 모두 정규화)
 decoder_dense = Dense(num_decoder_tokens, activation='softmax')
