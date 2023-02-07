@@ -214,6 +214,9 @@ def synthesis(text, gmode='g1', smode='nosample'):
     if (length < maxlen):
         return text
 
+    # diversity 직접 설정
+    diversity = int(input('Enter a diversity : '))
+
     # g1: 하나의 place에서 동일한 prefix sequence를 기반으로
     #     새로 생성된 code를 원래의 잘 형성된 program에 삽입
     if (gmode is 'g1'):
@@ -232,17 +235,17 @@ def synthesis(text, gmode='g1', smode='nosample'):
             k = k + 1
             # nosample: 학습된 분포에 직접 의존
             if (smode is 'nosample'):
-                next_char = decode_sequence(prefix, 1)
+                next_char = decode_sequence(prefix, diversity)
             # sample: prefix sequence가 주어지면 다음 문자를 sampling
             if (smode is 'sample'):
-                next_char = decode_sequence(prefix, 1.2)
+                next_char = decode_sequence(prefix, diversity)
             # samplespace: prefix sequence가 공백으로 끝날 때
             # threshold를 초과하는 모든 문자 중 다음 문자만 sampling
             if (smode is 'samplespace'):
                 if (generated[-1] == ' ' or generated[-1] == ';'):
-                    next_char = decode_sequence(prefix, 1.2)
+                    next_char = decode_sequence(prefix, diversity)
                 else:
-                    next_char = decode_sequence(prefix, 1)
+                    next_char = decode_sequence(prefix, diversity)
             if (next_char == ';'):
                 num_line += 1
             generated += next_char
@@ -267,14 +270,14 @@ def synthesis(text, gmode='g1', smode='nosample'):
             while (num_line < max_num_line/2 and k < 150):
                 k = k + 1
                 if (smode is 'nosample'):
-                    next_char = decode_sequence(prefix, 1)
+                    next_char = decode_sequence(prefix, diversity)
                 if (smode is 'sample'):
-                    next_char = decode_sequence(prefix, 1.2)
+                    next_char = decode_sequence(prefix, diversity)
                 if (smode is 'samplespace'):
                     if (generated[-1] == ' ' or generated[-1] == ';'):
-                        next_char = decode_sequence(prefix, 1.2)
+                        next_char = decode_sequence(prefix, diversity)
                     else:
-                        next_char = decode_sequence(prefix, 1)
+                        next_char = decode_sequence(prefix, diversity)
                 if (next_char == ';'):
                     num_line += 1
                 generated += next_char
@@ -301,14 +304,14 @@ def synthesis(text, gmode='g1', smode='nosample'):
         while (num_line < max_num_line and k < 150):
             k = k + 1
             if (smode is 'nosample'):
-                next_char = decode_sequence(prefix, 1)
+                next_char = decode_sequence(prefix, diversity)
             if (smode is 'sample'):
-                next_char = decode_sequence(prefix, 1.2)
+                next_char = decode_sequence(prefix, diversity)
             if (smode is 'samplespace'):
                 if (generated[-1] == ' ' or generated[-1] == ';'):
-                    next_char = decode_sequence(prefix, 1.2)
+                    next_char = decode_sequence(prefix, diversity)
                 else:
-                    next_char = decode_sequence(prefix, 1)
+                    next_char = decode_sequence(prefix, diversity)
             if (next_char == ';'):
                 num_line += 1
             generated += next_char
