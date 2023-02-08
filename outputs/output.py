@@ -1,19 +1,23 @@
 import json
-    
-def classifyErrorMsg(compiler, fileName):
+
+def readFileContents(fileName):
     with open(fileName, "r") as file:
         contents = [content.rstrip() for content in file]
+    
+    return contents
 
-    if compiler == "gcc":
-        errorLines = storeErrorLine(contents)
-        inputName = setInputName(contents)
-        data = makeJsonObject(errorLines, inputName)
-        
-    makeJsonFile(fileName, data)
-
-def setInputName(contents):
-    strings = contents[0].split(':')
-    return strings[0]
+def isError(contents):
+    error = False
+    for content in contents:
+        try:
+            strings = content.split(":")
+            if "error" in strings[3]:
+                error = True
+                break
+        except:
+            return error
+    
+    return error
 
 def storeErrorLine(contents):
     errorLines = { "syntaxError": [], "internalError": [] }
@@ -30,7 +34,7 @@ def storeErrorLine(contents):
 
     return errorLines
 
-def makeJsonObject(errorLines, inputName):
+def makeJsonObject(errorLines, fileName, option):
     data = {
         "errorMsg": []
     }
@@ -38,27 +42,25 @@ def makeJsonObject(errorLines, inputName):
     if errorLines["syntaxError"]:
         data["errorMsg"].append({
             "compiler": "gcc",
-            "input": inputName,
+            "input": fileName,
             "output": "syntaxError",
             "lines": errorLines["syntaxError"],
-            "option": "-O3"
+            "option": option
         })
 
     if errorLines["internalError"]:
         data["errorMsg"].append({
             "compiler": "gcc",
-            "input": inputName,
+            "input": fileName,
             "output": "internalError",
             "lines": errorLines["internalError"],
-            "option": "-O3"
+            "option": option
         })
 
     return data
 
-def makeJsonFile(fileName, data):
-    jsonFile = fileName[:-4] + ".json"
+def makeJsonFile(outputName, data):
+    jsonFile = outputName[:-4] + ".json"
     json_object = json.dumps(data, indent=4)
     with open(jsonFile, "w") as outfile:
         outfile.write(json_object)
-
-classifyErrorMsg("gcc", "/Users/leesoobeen/Desktop/DeepFuzz/outputs/output001:2301182216.txt")
