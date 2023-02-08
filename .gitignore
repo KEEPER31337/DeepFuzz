@@ -132,3 +132,4 @@ dmypy.json
 seed/
 inputs/
 outputs/
+compilers/
