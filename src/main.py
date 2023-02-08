@@ -1,7 +1,7 @@
-import jsonparser
+import analyzer
 import output
-import generate
-import preprocess
+import generate as generate
+import preprocess as preprocess
 import train
 import prepare
 
