@@ -1,9 +1,10 @@
 import analyzer
 import output
-import generate as generate
-import preprocess as preprocess
+import generate
+import preprocess
 import train
 import prepare
+import autocompile
 
 if __name__ == '__main__':
     print("Deep Fuzz Automation Framework")
