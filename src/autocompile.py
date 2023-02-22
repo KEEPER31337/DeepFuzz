@@ -4,6 +4,7 @@ import datetime
 import re
 
 def getgccresult(srcPath,resPath):
+     files = []
      for n in range(5):
           command = "gcc " + "-O" + n
           running = subprocess.Popen(["strace", "-e", "write", "-f", command, srcPath],
@@ -13,7 +14,10 @@ def getgccresult(srcPath,resPath):
           d = datetime.datetime.now()
           d1 = re.sub(r"[-]","", str(d))
           filename = "output00" + n + ":" + re.sub(r"[-]","", str(d1[2:14]))
-          sys.stdout = open(resPath + filename + ".txt","w")
+          file = resPath + filename + ".txt"
+          files.append(file)
+          sys.stdout = open(file,"w")
           print(stderr)
           sys.stdout.close()
 
+     return files

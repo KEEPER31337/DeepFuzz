@@ -19,7 +19,7 @@ def verify_correctness(text, filename, mode):
     if ('error' in stderr):
         return False
     else:
-        return True
+        return True, filename
 
 def remove_comment(text):
     pattern = re.compile(r'//.*?$|/\*.*?\*/|\'(?:\\.|[^\\\'])*\'|"(?:\\.|[^\\"])*"',

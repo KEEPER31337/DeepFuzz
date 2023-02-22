@@ -370,6 +370,7 @@ def generate(seed_path, data_path):
     total_count = 0
     syntax_valid_count = 0
     files = []
+    filenames = []
     ### 직접 sampling method와 generation strategy를 선택하는 방법으로 수정 ###
     sampling_method = input('sampling method(nosample,sample,samplespace): ')
     generation_strategy = input('generation strategy(g1,g2,g3): ')
@@ -388,7 +389,8 @@ def generate(seed_path, data_path):
             text = pp.replace_macro(text, file)
             text = pp.remove_comment(text)
             text = pp.remove_space(text)
-            is_valid = pp.verify_correctness(text, file, 'deepfuzz_original')
+            is_valid, filename = pp.verify_correctness(text, file, 'deepfuzz_original')
+            filenames.append(filename)
             if (not is_valid):
                 continue
             total_count += 1
@@ -400,10 +402,12 @@ def generate(seed_path, data_path):
                 syntax_valid_count += 1
         except:
             continue
-        
+    
     pass_rate = syntax_valid_count / total_count
     ### 어떤 sampling method와 generation strategy를 사용하였는지 명시 ###
     print('sampling method:',sampling_method, 'generation strategy:',generation_strategy)
     print('syntax_valid_count: %d' % (syntax_valid_count))
     print('total_count: %d' % (total_count))
     print('pass rate: %f' % pass_rate)
+
+    return filenames
